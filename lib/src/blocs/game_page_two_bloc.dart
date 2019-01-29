@@ -1,10 +1,10 @@
-import 'package:pair_game/src/frideos_dart/frideos_dart.dart';
+import 'package:frideos/frideos_dart.dart';
 
-import 'package:pair_game/src/blocs/bloc.dart';
-import 'package:pair_game/src/models/box_model.dart';
+import 'bloc.dart';
+import '../models/box_model.dart';
 
 class GamePageTwoBloc extends BlocBase {
-  final items = StreamedCollection<Box>();
+  final items = StreamedList<Box>();
 
   // Receiver
   final tunnelReceiver = StreamedValue<Box>();

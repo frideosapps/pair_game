@@ -9,26 +9,6 @@ class Box {
   int time = 0;
   Box(this.index, this.text, this.color, this.opacity);
 }
-/*
-final globalMockBoxes = [
-  Box(1, 'Car', Colors.red[200], 1.0),
-  Box(2, 'Bike', Colors.blue[200], 1.0),
-  Box(3, 'Airplane', Colors.green[200], 1.0),
-  Box(4, 'Car', Colors.red[200], 1.0),
-  Box(5, 'Bike', Colors.blue[200], 1.0),
-  Box(6, 'Airplane', Colors.green[200], 1.0),
-  Box(7, 'Snake', Colors.green[200], 1.0),
-  Box(8, 'Pizza', Colors.pink[200], 1.0),
-  Box(9, 'Pizza', Colors.pink[200], 1.0),
-  Box(10, 'Camel', Colors.brown[200], 1.0),
-  Box(11, 'Camel', Colors.brown[200], 1.0),
-  Box(12, 'Flutter', Colors.blue[200], 1.0),
-  Box(13, 'Flutter', Colors.blue[200], 1.0),
-  Box(14, 'Snake', Colors.green[200], 1.0),
-  Box(15, 'Shark', Colors.indigo[200], 1.0),
-  Box(16, 'Shark', Colors.indigo[200], 1.0),
-];
-*/
 
 get globalMockBoxes => [
       Box(1, 'Car', Colors.red[400], 1.0),

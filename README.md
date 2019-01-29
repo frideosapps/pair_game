@@ -14,7 +14,7 @@ https://medium.com/@frmineoapps/a-simple-pair-game-made-with-flutter-a-custom-li
 
 ### Packages used:
 
-- [RxDart](https://pub.dartlang.org/packages/rxdart)
+- [Frideos-flutter](https://pub.dartlang.org/packages/frideos)
 
 ## Screenshots
 ![Screenshot](screenshots/1.gif?s=150)

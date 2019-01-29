@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:pair_game/src/screens/game_home.dart';
-import 'package:pair_game/src/blocs/bloc.dart';
-import 'package:pair_game/src/blocs/game_bloc.dart';
+import 'src/blocs/bloc.dart';
+import 'src/blocs/game_bloc.dart';
+import 'src/screens/game_home.dart';
 
 void main() => runApp(MyApp());
 

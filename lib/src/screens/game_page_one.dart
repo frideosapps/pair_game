@@ -2,10 +2,10 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-import 'package:pair_game/src/frideos_flutter/frideos_flutter.dart';
+import 'package:frideos/frideos_flutter.dart';
 
-import 'package:pair_game/src/blocs/game_page_one_bloc.dart';
-import 'package:pair_game/src/models/box_model.dart';
+import '../blocs/game_page_one_bloc.dart';
+import '../models/box_model.dart';
 
 class GamePageOne extends StatelessWidget {
   GamePageOne({this.bloc});
@@ -17,8 +17,7 @@ class GamePageOne extends StatelessWidget {
     var size = MediaQuery.of(context).size;
 
     var height = size.height;
-    var width = size.width;
-
+    
     var outerBox = (height / 8) - 4.0;
     var innerBox = outerBox - 6.0;
 
@@ -176,70 +175,74 @@ class GamePageOne extends StatelessWidget {
           ],
         ),
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+      child: ListView(
+        shrinkWrap: true,
         children: <Widget>[
           Container(
-            height: 14.0,
+            height: 12.0,
           ),
-          StreamedWidget<int>(
-            stream: bloc.score.outStream,
-            builder: (BuildContext context, AsyncSnapshot<int> snapshot) =>
-                Text('Score: ${snapshot.data}',
-                    style: TextStyle(
-                        color: Colors.blue[900],
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.w500)),
-            noDataChild: Text('NO DATA'),
+          Container(
+            alignment: Alignment.center,
+            child: StreamedWidget<int>(
+              stream: bloc.score.outStream,
+              builder: (BuildContext context, AsyncSnapshot<int> snapshot) =>
+                  Text('Score: ${snapshot.data}',
+                      style: TextStyle(
+                          color: Colors.blue[900],
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.w500)),
+              noDataChild: Text('NO DATA'),
+            ),
           ),
-          StreamedWidget(
-            stream: bloc.gameTimer.outStream,
-            builder: (BuildContext context, AsyncSnapshot<int> snapshot) =>
-                Text('Time: ${(snapshot.data * 0.001).toStringAsFixed(2)}',
-                    style: TextStyle(
-                        color: Colors.grey[800],
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w500)),
-            noDataChild: Text('Click on the first tile to begin.'),
+          Container(
+            alignment: Alignment.center,
+            child: StreamedWidget(
+              stream: bloc.gameTimer.outStream,
+              builder: (BuildContext context, AsyncSnapshot<int> snapshot) =>
+                  Text('Time: ${(snapshot.data * 0.001).toStringAsFixed(2)}',
+                      style: TextStyle(
+                          color: Colors.grey[800],
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.w500)),
+              noDataChild: Text('Click on the first tile to begin.'),
+            ),
           ),
           Container(
             height: 20.0,
           ),
-          Expanded(
-                      child: StreamedWidget<double>(
+          StreamedWidget<double>(
                 initialData: 0.0,
                 stream: bloc.flutterAnimation.animation.outStream,
                 builder: (c, AsyncSnapshot<double> s) {
                   return Transform.rotate(
-                      angle: s.data * (math.pi / 180),
-                      child: Column(
-                        children: <Widget>[
-                          StreamedWidget<List<Box>>(
-                            initialData: bloc.mockItems.value,
-                            stream: bloc.mockItems.outStream,
-                            builder: (c, AsyncSnapshot<List<Box>> s) {
-                              return buildRows(s.data);
-                            },
-                          ),
-                          Container(
-                            height: 20.0,
-                          ),
-                          StreamedWidget(
-                            stream: bloc.moves.outStream,
-                            builder: (BuildContext context,
-                                    AsyncSnapshot<int> snapshot) =>
-                                Text('Moves: ${snapshot.data}',
-                                    style: TextStyle(
-                                        color: Colors.blueGrey[900],
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.w500)),
-                            noDataChild: Text(
-                                'At the end go on the moves page to see them.'),
-                          ),
-                        ],
-                      ));
+          angle: s.data * (math.pi / 180),
+          child: Column(
+            children: <Widget>[
+              StreamedWidget<List<Box>>(
+                initialData: bloc.mockItems.value,
+                stream: bloc.mockItems.outStream,
+                builder: (c, AsyncSnapshot<List<Box>> s) {
+                  return buildRows(s.data);
+                },
+              ),
+              Container(
+                height: 20.0,
+              ),
+              StreamedWidget(
+                stream: bloc.moves.outStream,
+                builder: (BuildContext context,
+                        AsyncSnapshot<int> snapshot) =>
+                    Text('Moves: ${snapshot.data}',
+                        style: TextStyle(
+                            color: Colors.blueGrey[900],
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.w500)),
+                noDataChild: Text(
+                    'At the end go on the moves page to see them.'),
+              ),
+            ],
+          ));
                 }),
-          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: StreamedWidget<String>(

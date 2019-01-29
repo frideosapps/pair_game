@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:pair_game/src/frideos_dart/frideos_dart.dart';
+import 'package:frideos/frideos_dart.dart';
 
-import 'package:pair_game/src/blocs/bloc.dart';
-
+import 'bloc.dart';
 import 'game_page_one_bloc.dart';
 import 'game_page_two_bloc.dart';
 

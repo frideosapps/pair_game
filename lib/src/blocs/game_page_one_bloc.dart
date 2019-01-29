@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'package:pair_game/src/frideos_dart/frideos_dart.dart';
+import 'package:frideos/frideos_dart.dart';
 
-import 'package:pair_game/src/blocs/bloc.dart';
-import 'package:pair_game/src/models/box_model.dart';
+import 'bloc.dart';
+import '../models/box_model.dart';
 
 // Speed for the opacity animation of the selection box
 const double opacitySpeed = 0.08;
@@ -19,11 +19,11 @@ class GamePageOneBloc extends BlocBase with Tunnel {
 
   final boxesPosition = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
 
-  final mockItems = StreamedCollection<Box>();
-  // final selectedBoxes = StreamedCollection<Box>();
-  final selectedCollection = StreamedCollection<Box>();
+  final mockItems = StreamedList<Box>();
 
-  final selectionAnimation = AnimatedObject(0.0, 20);
+  final selectedCollection = StreamedList<Box>();
+
+  final selectionAnimation = AnimatedObject(initialValue: 0.0, interval: 20);
   final opacityList = List<Item>();
 
   int lastSelectedItem = -1;
@@ -32,14 +32,15 @@ class GamePageOneBloc extends BlocBase with Tunnel {
   final boxesToRemove = List<Box>();
 
   // Animation disappearing animation (Fade out)
-  final boxAnimation = AnimatedObject<double>(0.0, 17);
+  final boxAnimation = AnimatedObject<double>(initialValue: 0.0, interval: 17);
 
   // Replacing boxes fade in (50 milliseconds)
   final emptyBoxes = List<Box>();
-  final emptyBoxAnimation = AnimatedObject<double>(0.0, 50);
+  final emptyBoxAnimation =
+      AnimatedObject<double>(initialValue: 0.0, interval: 50);
 
   // Flutter's animation
-  final flutterAnimation = AnimatedObject(0.0, 17);
+  final flutterAnimation = AnimatedObject(initialValue: 0.0, interval: 17);
 
   // Score
   final score = StreamedValue<int>();

@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:pair_game/src/frideos_dart/frideos_dart.dart';
-import 'package:pair_game/src/frideos_flutter/frideos_flutter.dart';
-
-import 'package:pair_game/src/blocs/bloc.dart';
-import 'package:pair_game/src/blocs/game_bloc.dart';
+import 'package:frideos/frideos.dart';
 
 import 'game_page_one.dart';
 import 'game_page_two.dart';
+import '../blocs/bloc.dart';
+import '../blocs/game_bloc.dart';
 
 class GameHomePage extends StatelessWidget {
   @override
@@ -18,6 +16,8 @@ class GameHomePage extends StatelessWidget {
 
     Widget _home() {
       return Container(
+        width: MediaQuery.of(context).size.width,
+        padding: const EdgeInsets.all(28.0),
         decoration: BoxDecoration(
           color: Colors.blueGrey[200],
           gradient: RadialGradient(
@@ -30,77 +30,33 @@ class GameHomePage extends StatelessWidget {
           ),
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
+            StreamedWidget<String>(
+                stream: bloc.welcomeMsg.outStream,
+                builder:
+                    (BuildContext context, AsyncSnapshot<String> snapshot) {
+                  return Text(snapshot.data,
+                      style: TextStyle(
+                          color: Colors.blueGrey[900],
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.w500));
+                },
+                noDataChild: Text('Pair game')),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Expanded(
-                  child: Container(
-                    height: 160.0,
-                    child: StreamedWidget<String>(
-                        stream: bloc.welcomeMsg.outStream,
-                        builder: (BuildContext context,
-                            AsyncSnapshot<String> snapshot) {
-                          return Container(
-                            padding: const EdgeInsets.all(28.0),
-                            child: Text(snapshot.data,
-                                style: TextStyle(
-                                    color: Colors.blueGrey[900],
-                                    fontSize: 24.0,
-                                    fontWeight: FontWeight.w500)),
-                          );
-                        },
-                        noDataChild: Text('Pair game')),
-                  ),
+                  child: RaisedButton(
+                      color: Colors.blue[200],
+                      child: Text('Start game'),
+                      onPressed: () {
+                        bloc.page.value = GamePageOne(
+                          bloc: bloc.blocA,
+                        );
+                      }),
                 ),
               ],
-            ), /*
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                RaisedButton(
-                  color: Colors.lightBlueAccent,
-                  child: Text('Game'),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Scaffold(
-                              appBar: AppBar(
-                                title: Text('Game'),
-                              ),
-                              body: GamePageOne(
-                                bloc: bloc.blocA,
-                              ),
-                            ),
-                      ),
-                    );
-                  },
-                ),
-                Container(
-                  width: 40.0,
-                ),
-                RaisedButton(
-                  color: Colors.lightBlueAccent,
-                  child: Text('Moves'),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Scaffold(
-                              appBar: AppBar(
-                                title: Text('Moves'),
-                              ),
-                              body: GamePageTwo(
-                                bloc: bloc.blocB,
-                              ),
-                            ),
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),*/
+            ),
           ],
         ),
       );

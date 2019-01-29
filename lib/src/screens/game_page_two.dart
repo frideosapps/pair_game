@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:pair_game/src/frideos_flutter/frideos_flutter.dart';
+import 'package:frideos/frideos_flutter.dart';
 
-import 'package:pair_game/src/blocs/game_page_two_bloc.dart';
-import 'package:pair_game/src/models/box_model.dart';
+import '../blocs/game_page_two_bloc.dart';
+import '../models/box_model.dart';
 
 class GamePageTwo extends StatelessWidget {
   GamePageTwo({this.bloc});
@@ -12,15 +12,9 @@ class GamePageTwo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-
-    var height = size.height;
-    var width = size.width;
-
-    var outerBox = (height / 8) - 4.0;
-    var innerBox = outerBox - 6.0;
-
     return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
       padding: EdgeInsets.all(8.0),
       decoration: BoxDecoration(
         color: Colors.blueGrey[200],
@@ -36,61 +30,60 @@ class GamePageTwo extends StatelessWidget {
       child: StreamedWidget<List<Box>>(
         stream: bloc.items.outStream,
         builder: (BuildContext context, AsyncSnapshot<List<Box>> snapshot) {
+
+          if (snapshot.data.length == 0) {
+            return Text('Here you will see all the moves made.');
+          }
+
           return GridView.builder(
               itemCount: snapshot.data.length,
-              gridDelegate:
-                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4, mainAxisSpacing: 12.0),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4, mainAxisSpacing: 12.0),
               itemBuilder: (BuildContext context, int index) {
                 var item = snapshot.data[index];
-                return Center(
-                  child: InkWell(
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Text('Move: ${index + 1}',
+                return InkWell(
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Text('Move: ${index + 1}',
+                            style: TextStyle(
+                                color: Colors.blueGrey[900],
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.w500)),
+                      ),
+                      Expanded(
+                        child: Container(   
+                          alignment: Alignment.center,                        
+                          margin: EdgeInsets.symmetric(horizontal: 4.0),
+                          decoration: BoxDecoration(
+                            color: item.color,
+                            borderRadius: BorderRadius.circular(12.0),
+                            border: Border.all(
+                                color: Colors.blueGrey[900], width: 2.0),
+                          ),
+                          child: Text(item.text,
                               style: TextStyle(
                                   color: Colors.blueGrey[900],
-                                  fontSize: 14.0,
+                                  fontSize: 16.0,
                                   fontWeight: FontWeight.w500)),
                         ),
-                        Expanded(
-                          child: Container(
-                            // height: height,
-                            // width: width,
-                            margin: EdgeInsets.symmetric(horizontal: 4.0),
-                            decoration: BoxDecoration(
-                              color: item.color,
-                              borderRadius: BorderRadius.circular(12.0),
-                              border: Border.all(
-                                  color: Colors.blueGrey[900], width: 2.0),
-                            ),
-                            child: Center(
-                                child: Text(item.text,
-                                    style: TextStyle(
-                                        color: Colors.blueGrey[900],
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.w500))),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Text(
-                              'Time: ${(item.time * 0.001).toStringAsFixed(2)}',
-                              style: TextStyle(
-                                  color: Colors.grey[800],
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.w400)),
-                        ),
-                      ],
-                    ),
-                    onTap: () {},
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Text(
+                            'Time: ${(item.time * 0.001).toStringAsFixed(2)}',
+                            style: TextStyle(
+                                color: Colors.grey[800],
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.w400)),
+                      ),
+                    ],
                   ),
+                  onTap: () {},
                 );
               });
-        },
-        noDataChild:
-            Center(child: Text('Here you will see all the moves made.')),
+        },       
       ),
     );
   }
